@@ -5,8 +5,8 @@ import * as multer from 'multer';
 import { join } from 'path';
 
 import { Configuration } from '../configuration';
-import { UploadedFile } from '../mongoose/uploadedFile';
-import { UploadedFileInterface } from '../mongoose/uploadedFile.interface';
+import { UploadedFile } from '../fileUpload/uploadedFile';
+import { UploadedFileInterface } from '../fileUpload/uploadedFile.interface';
 
 interface RoutesInterface {
   createRoutes: () => express.Router;
@@ -27,7 +27,7 @@ class Routes implements RoutesInterface {
         })
         .catch(error => {
           console.log(`Download location doesn't exist and can't be created`);
-          console.log(error);
+          console.log(error.message);
           process.exit(1);
         });
     }
@@ -109,6 +109,29 @@ class Routes implements RoutesInterface {
             res.status(500).send(error.message);
           });
       }
+    });
+
+    //file route supporting pagination
+    router.get('/files', (req: Request, res: Response) => {
+      let page = req.query.page || 0;
+      let pageSize = req.query.pageSize || 20;
+
+      if (page < 0) page = 0;
+      if (pageSize > 100) pageSize = 100;
+      if (pageSize < 20) pageSize = 20;
+
+      const skip = (page * pageSize);
+      const nextPage = page + 1;
+
+
+      UploadedFile.find().skip(skip).limit(pageSize).then((foundFiles) => {
+        res.header({ 'nextPage': nextPage });
+        res.header({ 'pageSize': pageSize });
+        res.send(foundFiles);
+      }).catch(error => {
+        console.log(`Error finding files: ${error.message}`);
+        res.status(500).send(error.message);
+      });
     });
 
     return router;

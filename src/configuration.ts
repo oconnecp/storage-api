@@ -1,7 +1,7 @@
 import { ConfigurationInterface } from './configuration.interface';
 
 class Configuration implements ConfigurationInterface {
-  constructor(){
+  constructor() {
     console.log('env: ' + process.env.MONGOOSE_CONNECTION);
   }
 

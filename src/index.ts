@@ -13,12 +13,18 @@ class Index {
         useNewUrlParser: true,
         useCreateIndex: true,
       }
-    ).then(()=>{
-      console.log(`Connected to the Mongo server @: ${Configuration.mongooseConnection}`)
-    }).catch(()=>{
-      console.log(`Could NOT connect to server @: ${Configuration.mongooseConnection}`);
-      process.exit(1);
-    });
+    )
+      .then(() => {
+        console.log(
+          `Connected to the Mongo server @: ${Configuration.mongooseConnection}`
+        );
+      })
+      .catch(() => {
+        console.log(
+          `Could NOT connect to server @: ${Configuration.mongooseConnection}`
+        );
+        process.exit(1);
+      });
 
     const expressServerPort = Configuration.expressServerPort;
     //start listening
