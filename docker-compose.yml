@@ -1,0 +1,21 @@
+version: "2"
+services:
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - mongo:mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    command:
+      - '-f'
+      - '/etc/mongod.conf'
+    volumes:
+      - ./docker/data:/data/db
+      - ./docker/mongod.conf:/etc/mongod.conf
+    ports:
+      - "27017:27017"
