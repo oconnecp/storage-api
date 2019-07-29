@@ -1,10 +1,6 @@
 import { ConfigurationInterface } from './configuration.interface';
 
 class Configuration implements ConfigurationInterface {
-  constructor() {
-    console.log('env: ' + process.env.MONGOOSE_CONNECTION);
-  }
-
   expressServerPort =
     (process.env.EXPRESS_SERVER_PORT && +process.env.EXPRESS_SERVER_PORT) ||
     5000;

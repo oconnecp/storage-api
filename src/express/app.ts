@@ -2,7 +2,7 @@ import * as bodyParser from 'body-parser';
 import * as express from 'express';
 
 import { AppInterface } from './app.interface';
-import { Routes } from './routes';
+import { UploadedFileRoutes } from '../fileUpload/fileUpload.routes';
 
 class App implements AppInterface {
   app: express.Application;
@@ -14,8 +14,11 @@ class App implements AppInterface {
     this.app.use(bodyParser.json());
     //support application/x-www-form-urlencoded post data
     this.app.use(bodyParser.urlencoded({ extended: false }));
-    //load the routes from routes.ts
-    this.router = Routes.createRoutes();
+    //this is default code frome the mongoose documentation to initialize an express.Router type
+    this.router = express.Router();
+    //load the routes from fileUpload.routes.ts
+    UploadedFileRoutes.attachRoutes(this.router);
+
     //attach the router to the app
     this.app.use('/', this.router);
   }
