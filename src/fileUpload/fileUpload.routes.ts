@@ -77,9 +77,7 @@ class UploadedFileRoutes implements RoutesInterface {
     router.get('/files', (req: Request, res: Response) => {
       UploadedFileController.retrieveFiles(req.query.page, req.query.pageSize)
         .then(retrieveFileObject => {
-          res.header({ nextPage: retrieveFileObject.nextPage });
-          res.header({ pageSize: retrieveFileObject.pageSize });
-          res.send(retrieveFileObject.foundFiles);
+          res.send(retrieveFileObject);
         })
         .catch(error => {
           console.error(`Error finding files: ${error.message}`);
