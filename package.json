@@ -11,7 +11,7 @@
   "keywords": [],
   "scripts": {
     "test": "mocha -r ts-node/register src/tests/**/*.test.ts",
-    "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register src/tests/**/*.test.ts && nyc report",
+    "testWithCoverage": "nyc --all -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register src/tests/**/*.test.ts && nyc report",
     "check": "npx gts check",
     "clean": "npx gts clean",
     "compile": "tsc -p .",

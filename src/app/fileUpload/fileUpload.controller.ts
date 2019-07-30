@@ -1,10 +1,30 @@
-import { UploadedFile } from './fileUpload.database';
-import {
-  FileUploadInterface,
-  SearchableFileUploadInterface,
-} from './fileUpload.interface';
+import { FileUploadModel } from './fileUpload.database';
+import { FileUploadInterface, SearchableFileUploadInterface, FileUploadModelInterface } from './fileUpload.interface';
+import { existsSync, promises as fsPromises } from 'fs';
+import { join } from 'path';
 
 class UploadedFileController {
+  fileLocation = '';
+
+  //if the downloadLocation does not exist, create it
+  //return the promise to handle mkdir errors
+  setFileLocation = (fileLocation: string) => {
+    this.fileLocation = fileLocation;
+    const downloadLocationExists = existsSync(fileLocation);
+    if (!downloadLocationExists) {
+      console.log('creating file location');
+      return fsPromises
+        .mkdir(fileLocation)
+        .then(() => {
+          console.log(
+            `Download location: ${fileLocation} created successfully`
+          );
+        });
+    }
+
+    return Promise.resolve();
+  }
+
   saveFile = (file: Express.Multer.File) => {
     //if no file is sent, multer won't attach file to the request
     if (!file) {
@@ -18,7 +38,7 @@ class UploadedFileController {
     };
 
     //Save the data for the user
-    return UploadedFile.create(uploadedFile);
+    return FileUploadModel.create(uploadedFile);
   };
 
   //giving this the same type as the save is causing issues everywhere.
@@ -34,7 +54,7 @@ class UploadedFileController {
     };
 
     //Search for the uploadedFile in the mongo database
-    return UploadedFile.findOne(uploadedFile).then(foundFile => {
+    return FileUploadModel.findOne(uploadedFile).then(foundFile => {
       //when nothing is found, foundFile is null
       if (!foundFile) {
         //throwing this error will kick the promise out to the .catch below.  to make life easy I pretty printed the uploadedFile object to the string
@@ -58,9 +78,10 @@ class UploadedFileController {
     const skip = page * pageSize;
     const nextPage = page + 1;
 
-    return UploadedFile.find()
+    return FileUploadModel.find()
       .skip(skip)
       .limit(pageSize)
+      .sort('-createdDate')
       .then(foundFiles => {
         return { nextPage, pageSize, foundFiles };
       });
@@ -68,11 +89,14 @@ class UploadedFileController {
 
   deleteFile = (uploadedFilename: string) => {
     //using the findFile function will ensure that foundFile will never be null
+    let file: FileUploadModelInterface;
     return this.findFile(uploadedFilename).then(foundFile => {
-      console.log('todo: finish delete route');
-    });
+      file = foundFile;
+      return fsPromises.unlink(join(this.fileLocation, foundFile.savedFilename));
+    }).then(() => file.remove());
   };
 }
 
 const controller = new UploadedFileController();
 export { controller as UploadedFileController };
+

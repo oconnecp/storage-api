@@ -1,7 +1,10 @@
-build/*
+build/
 docker/data/
 uploadedfiles/
+testUploadedfiles
 node_modules/
 .DS_Store
 .vscode/
 *.code-workspace
+coverage/
+.nyc_output

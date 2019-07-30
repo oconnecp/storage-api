@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface {
   test = {
     expressServerPort: 3000,
     downloadLocation:
-      '/Users/evilgingerman/workspace/storage-api/uploadedfiles/',
+      '/Users/evilgingerman/workspace/storage-api/testUploadedfiles/',
     mongooseConnection: 'mongodb://localhost:27017/test-storage-api',
   };
 }

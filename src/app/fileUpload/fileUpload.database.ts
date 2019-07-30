@@ -5,13 +5,13 @@ import {
   FileUploadModelInterface,
 } from './fileUpload.interface';
 
-const uploadedFileSchema: Schema<FileUploadInterface> = new Schema({
-  savedFilename: { type: String, index: true, required: true },
+const fileUploadSchema: Schema<FileUploadInterface> = new Schema({
+  savedFilename: { type: String, index: true, unique: true, required: true },
   originalFilename: { type: String, required: true },
   createdDate: Date,
 });
 
-uploadedFileSchema.pre('save', function(
+fileUploadSchema.pre('save', function(
   this: FileUploadModelInterface,
   next: () => void
 ) {
@@ -20,12 +20,12 @@ uploadedFileSchema.pre('save', function(
   next();
 });
 
-const uploadedFile = model<FileUploadModelInterface>(
-  'UploadedFile',
-  uploadedFileSchema
+const fileUploadModel = model<FileUploadModelInterface>(
+  'FileUpload',
+  fileUploadSchema
 );
 
 export {
-  uploadedFile as UploadedFile,
-  uploadedFileSchema as UploadedFileSchema,
+  fileUploadModel as FileUploadModel,
+  fileUploadSchema as FileUploadSchema,
 };

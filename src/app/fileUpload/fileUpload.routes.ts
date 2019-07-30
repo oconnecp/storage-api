@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { existsSync, promises as fsPromises } from 'fs';
 import * as multer from 'multer';
 import { join } from 'path';
 
@@ -13,23 +12,17 @@ interface RoutesInterface {
 
 class UploadedFileRoutes implements RoutesInterface {
   constructor() {
-    //these routes use multer that has a downloadLocation, if the downloadLocation does not exist the application will not work
+    //these routes use multer that has a downloadLocation, 
     //if the downloadLocation does not exist, create it
-    const downloadLocationExists = existsSync(Configuration.downloadLocation);
-    if (!downloadLocationExists) {
-      fsPromises
-        .mkdir(Configuration.downloadLocation)
-        .then(() => {
-          console.log(
-            `Download location: ${Configuration.downloadLocation} created successfully`
-          );
-        })
-        .catch(error => {
-          console.log(`Download location doesn't exist and can't be created`);
-          console.log(error.message);
-          process.exit(1);
-        });
-    }
+    //if the downloadLocation does not exist the application will not work
+    //end the process on error
+    UploadedFileController.setFileLocation(Configuration.downloadLocation)
+      .catch(error => {
+        console.log(`Download location doesn't exist and can't be created`);
+        console.log(error.message);
+        process.exit(1);
+      });
+
   }
 
   //Define the router and create upload and download
@@ -90,7 +83,7 @@ class UploadedFileRoutes implements RoutesInterface {
       UploadedFileController.deleteFile(req.params.uploadedFilename)
         .then(() => {
           //todo: create a s response object
-          res.send('todo: finish delete route');
+          res.send('The file has been deleted');
         })
         .catch(error => {
           console.error(`Error deleting file: ${error.message}`);
