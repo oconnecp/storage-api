@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "bf66012f-4594-4ba8-b763-f54cbf20905a",
+		"name": "storage-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload File",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "xhr",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "file",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "uploadedFile",
+							"type": "file",
+							"src": "/Users/evilgingerman/workspace/storage-api/tslint.json"
+						},
+						{
+							"key": "name",
+							"value": "package.json",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/file",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"file"
+					]
+				},
+				"description": "Upload a file using the POST method"
+			},
+			"response": []
+		},
+		{
+			"name": "Get File",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/download/ed84f92f7477dd0c25c3285bf79f8b6b",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"download",
+						"ed84f92f7477dd0c25c3285bf79f8b6b"
+					]
+				},
+				"description": "Get the file"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a list of files",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "xhr",
+						"type": "text",
+						"value": "true"
+					},
+					{
+						"key": "file",
+						"type": "text",
+						"value": "true"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/files",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"files"
+					]
+				},
+				"description": "An array is returned with all the files"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete the file",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "xhr",
+						"type": "text",
+						"value": "true"
+					},
+					{
+						"key": "file",
+						"type": "text",
+						"value": "true"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/file/ed84f92f7477dd0c25c3285bf79f8b6b",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"file",
+						"ed84f92f7477dd0c25c3285bf79f8b6b"
+					]
+				},
+				"description": "An array is returned with all the files"
+			},
+			"response": []
+		}
+	]
+}
