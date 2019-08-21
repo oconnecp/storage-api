@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12
 
 RUN mkdir -p /usr/storage-api
 WORKDIR /usr/storage-api
