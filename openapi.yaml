@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: storage-api
+  description: A simple storage-api
+  license:
+    name: MIT
+    url: https://github.com/oconnecp/storage-api/raw/master/LICENSE
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /file:
+    post:
+      tags:
+      - file
+      summary: Upload a file
+      operationId: addFile
+      parameters:
+      - name: file
+        in: header
+        required: true
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - uploadedFile
+              properties:
+                uploadedFile:
+                  description: The file to upload.
+                  format: binary
+        required: true
+      responses:
+        200:
+          description: OK
+          content: 
+            text/plain:
+              schema:
+                type: string
+        500:
+          description: Error
+  /file/{id}:
+    get:
+      tags:
+      - file
+      summary: Download the file
+      operationId: getFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: The contents of the file
+        500:
+          description: Error
+    delete:
+      tags:
+      - file
+      summary: Delete the file
+      operationId: deleteFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+        500:
+          description: Error
+
+  /files:
+    get:
+      tags:
+      - files
+      summary: Retrieve a list of files
+      operationId: getFiles
+      parameters:
+        - name: page 
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+            
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 20
+            maximum: 100
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/Files'
+        405:
+          description: Invalid input
+          content: {}
+components:
+  schemas:
+    File:
+      type: object
+      properties:
+        _id:
+          type: integer
+          format: string
+        originalFilename:
+          type: string
+        savedFilename:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+    Files:
+      type: object
+      properties:
+        nextPage:
+          type: integer
+        pageSize:
+          type: integer
+        foundFiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
