@@ -2,6 +2,12 @@
 
 storage-api is built on node v12.6.0
 
+# Docker Documentation
+Docker will work with the command 
+```
+docker-compose up
+```
+The api will be listening on the root of localhost under port 8080
 
 # Route Documentation
 A [openapi specification] is included in the repository.
