@@ -4,7 +4,7 @@ storage-api is built on node v12.6.0
 
 
 # Route Documentation
-A [swagger specification] is included in the repository.
+A [openapi specification] is included in the repository.
 
 
 # Postman
@@ -24,4 +24,4 @@ To delete your file, edit the route and paste in the id you just copied. Click t
 
 
 [postman collection]: <https://github.com/oconnecp/storage-api/raw/master/storage-api.postman_collection.json>
-[swagger specification]: <https://github.com/oconnecp/storage-api/raw/master/storage-api-swagger.yaml>
+[openapi specification]: <https://github.com/oconnecp/storage-api/raw/master/openapi.yaml>
