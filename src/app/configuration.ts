@@ -7,7 +7,7 @@ class Configuration implements ConfigurationInterface {
 
   downloadLocation =
     process.env.DOWNLOAD_LOCATION ||
-    '/Users/evilgingerman/workspace/storage-api/uploadedfiles/';
+    '/workspace/storage-api/uploadedfiles/';
 
   mongooseConnection =
     process.env.MONGOOSE_CONNECTION || 'mongodb://localhost:27017/storage-api';
@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface {
   test = {
     expressServerPort: 3000,
     downloadLocation:
-      '/Users/evilgingerman/workspace/storage-api/testUploadedfiles/',
+      '/workspace/storage-api/testUploadedfiles/',
     mongooseConnection: 'mongodb://localhost:27017/test-storage-api',
   };
 }
